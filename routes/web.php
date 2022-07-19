@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 Route::get('/', function () {
     return view('home.index', []);
 }) -> name('home.index');
@@ -20,16 +20,25 @@ Route::get('/', function () {
 Route::get('/contact', function(){
     return view('home.contact');// view's name is alike source to blade file
 }) -> name('home.contact');// should named like view
+*/
+// if you don't need to pass data or parameter, you can use view method like:
+Route::view('/', 'home.index')
+->name('home.index');
+Route::view('/contact', 'home.contact')
+->name('home.contact');
 
 Route::get('/post/{id}', function($id){
     $posts = [
         1 => [
             'title' => 'Intro to laravel',
-            'content' => 'Welcome to laravel 8'
+            'content' => 'Welcome to laravel 8',
+            'is_new' => true,
+            'has_comment' => true
         ],
         2 => [
             'title' => 'Intro to php',
-            'content' => 'Welcome to php 8.1.7'
+            'content' => 'Welcome to php 8.1.7',
+            'is_new' => false
         ]
     ];
     abort_if(!isset($posts['id']), 404);
