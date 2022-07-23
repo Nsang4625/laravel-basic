@@ -42,7 +42,7 @@ Route::get('/single', AboutController::class);
 // to use $posts below, we must spend 'use' statement
 /*
 Route::get('/posts', function() use($posts){
-    request()->all();// all method get all data in input and return an array 
+    request()->all();// method get all data in input and return an array 
     request()->input('post', 1);// get value of 'post' in input, default is 1
     return view('posts.index', ['posts' => $posts]);
     // variable of $posts will be assigned to the key 'posts'
@@ -60,8 +60,8 @@ Route::get('/post/{id}', function($id) use($posts){
 // ])
 // define constraint for id globaly in function boot inside file App/provider/RouteServiceProvider.php
 // compulsory parameter
-Route::resource('posts', PostsController::class)
-->only(['index', 'show']);//give only use 2 methods
+Route::resource('posts', PostsController::class);
+//->only(['index', 'show', 'store', 'create', 'update', 'edit']);//give only use these methods
 //in another way except() method will disable those methods
 Route::get('/recent-post/{days_Ago?}', function ($daysAgo = 20) {
     return 'Posts from ' . $daysAgo . ' days ago';
