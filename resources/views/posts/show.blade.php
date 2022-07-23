@@ -2,7 +2,7 @@
 
 @section('title', $post['title'])
 
-@if ($post['is_new'])
+{{-- @if ($post['is_new'])
 <h1>This is the newest post</h1>
 @else
 <h1>An old post</h1>    
@@ -15,7 +15,7 @@
 
 @isset($post['has_comment'])
     <div>This post has some comments...</div>
-@endisset
+@endisset --}}
 
 @section('content')
 <h1>{{ $post['title'] }}</h1>
