@@ -8,7 +8,7 @@
     </div>
 @endif
 <div>
-    <form action="{{ route('home.contact', ['post' => $post -> id]) }}">
+    <form action="{{ route('posts.destroy', ['post' => $post -> id]) }}">
         @method('DELETE')
         @csrf
         <input type="submit" value="DELETE!">
