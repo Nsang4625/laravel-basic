@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $post['title'])
+@section('title', $post->title)
 
 {{-- @if ($post['is_new'])
 <h1>This is the newest post</h1>
@@ -18,7 +18,7 @@
 @endisset --}}
 
 @section('content')
-<h1>{{ $post['title'] }}</h1>
-<p>{{ $post['content'] }}</p>
+<h1>{{ $post->title }}</h1>
+<p>{{ $post->content }}</p>
 @endsection
 
