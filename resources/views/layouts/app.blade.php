@@ -9,13 +9,13 @@
     <title>Laravel app - @yield('title')</title>
 </head>
 <body>
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white border-bottom shadow-sm mb-3">
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
         <h5 class="my-0 mr-md-auto font-weight-normal">Laravel App</h5>
         <nav class="my-2 my-md-0 mr-md-3">
-            <a href="{{ route('home.index') }}" class="p-2 text-dark">Home</a>
-            <a href="{{ route('home.contact') }}" class="p-2 text-dark">Contact</a>
-            <a href="{{ route('posts.index') }}" class="p-2 text-dark">Blog Posts</a>
-            <a href="{{ route('posts.create') }}" class="p-2 text-dark">Add blog</a>
+            <a class="p-2 text-dark" href="{{ route('home.index') }}" >Home</a>
+            <a class="p-2 text-dark" href="{{ route('home.contact') }}" >Contact</a>
+            <a class="p-2 text-dark" href="{{ route('posts.index') }}" >Blog Posts</a>
+            <a class="p-2 text-dark" href="{{ route('posts.create') }}" >Add blog</a>
         </nav>
     </div>
     <div class="container">
