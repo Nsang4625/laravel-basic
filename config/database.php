@@ -42,6 +42,10 @@ return [
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
+        'sqlite_test' => [
+            'driver' => 'sqlite',
+            'database' => ':memory:'
+        ],
 
         'mysql' => [
             'driver' => 'mysql',
