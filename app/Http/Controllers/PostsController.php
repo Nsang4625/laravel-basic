@@ -29,9 +29,12 @@ class PostsController extends Controller
      */
     public function index()
     {
-        DB::connection()->enableQueryLog();// this will enable logging of all
+        //DB::connection()->enableQueryLog();// this will enable logging of all
         // queries that are made inside laravel
-        return view('posts.index', ['posts' => BlogPost::all()]);
+
+        return view(
+            'posts.index',
+             ['posts' => BlogPost::withCount('comments')->get()]);
     }
 
     /**
