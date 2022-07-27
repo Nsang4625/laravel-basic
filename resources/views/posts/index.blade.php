@@ -9,7 +9,8 @@
     {{-- @break($key == 1) --}}
     @include('posts.partial.post')
 @empty {{-- this is a combine of foreach and empty(array) --}}
-    <div>There's no post</div>
+    <div>There is no post</div>
 @endforelse
 {{-- @each($source,$data ,$variable ) ~ @forelse + @include
     variable is which data converted to --}}
+@endsection
