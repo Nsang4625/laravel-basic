@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
-class CommentFactory extends Factory
+
+class ProfileFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -14,7 +14,7 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
-            'content' => $this->faker->text,
+            //
         ];
     }
 }
