@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['create', 'update', 'edit', 'store', 'destroy']);
+        // make the middleware execute only for some functions
+    }
     // public $posts = [
     //     1 => [
     //         'title' => 'Intro to laravel',

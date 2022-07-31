@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostsController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,7 +38,7 @@ Route::get('/contact', [HomeController::class, 'contact'])
 Route::get('/single', AboutController::class);
 // with single action controller like above
 //we don't need to pass the name function
-
+Auth::routes();
 
 // to use $posts below, we must spend 'use' statement
 /*
