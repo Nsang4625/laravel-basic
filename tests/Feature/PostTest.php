@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\BlogPost;
 use App\Models\Comment;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -48,5 +49,19 @@ class PostTest extends TestCase
         ]);
         $response = $this->get('/posts');
         $response->assertSeeText('4 comments');
+    }
+    public function testStoreValid(){
+
+        $params = [
+            'title' => 'Valid title',
+            'content' => 'At least 10 characters'
+        ];
+        
+        $this->actingAs($this->user())
+        ->post('/posts', $params)
+        ->assertStatus(302);
+        //->assertSessionHas('status');
+
+        // $this->assertEquals(session('status'), 'Blog post was created!');
     }
 }
