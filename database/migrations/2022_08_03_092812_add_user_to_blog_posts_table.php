@@ -34,7 +34,8 @@ class AddUserToBlogPostsTable extends Migration
             $table->dropForeign(['user_id']);// use [] to tell Laravel delete the fk was created on this field
             // remember that name column and name forein key are different
             $table->dropColumn('user_id');// drop column user_id
-            // drop the key before drop the column
+            // we must drop the key before drop the column
+            // can't drop a column that has a key
         });
     }
 }
