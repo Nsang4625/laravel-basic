@@ -36,4 +36,11 @@ class UserFactory extends Factory
             ];
         });
     }
+    public function suspend(){
+        return $this->state(function(array $attributes){
+            return [
+                'name' => 'Shiro'
+            ];
+        });
+    }
 }
