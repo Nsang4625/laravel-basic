@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\BlogPost;
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +26,21 @@ class DatabaseSeeder extends Seeder
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ]);
-        User::factory()->count(5)->create();
-        User::factory()->count(3)->suspend()->create();
+        $doe = User::factory()->count(5)->create();
+        $else = User::factory()->count(3)->suspend()->create();
+        // both lines uppon return collections
+        $users = $else->concat([$doe]);// concat function append a collection(array) to another collection's end
+        $posts = BlogPost::factory()->count(50)//->create(); can't create because blogpost needs user id
+        ->make()->each(function($post) use ($users){
+            $post -> user_id = $users->random()->id;
+            $post -> save();
+        });
+        $comments = Comment::factory()->count(100)
+        ->make()->each( function($comment) use ($posts)
+        {
+            # code...
+            $comment -> blog_post_id = $posts -> random() -> id;
+            $comment -> save();
+        });
     }
 }
