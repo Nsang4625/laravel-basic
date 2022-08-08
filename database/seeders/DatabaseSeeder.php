@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Database\Factories\UserFactory;
+// use Database\Factories\UserFactory;
 class DatabaseSeeder extends Seeder
 {
     /**
