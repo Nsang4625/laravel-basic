@@ -26,7 +26,7 @@
     <div class="alert alert-info">New!</div> 
 @endif
 <h4>Comments</h4>
-@forelse ($posts->comments as $comment)
+@forelse ($post->comments as $comment)
     <p>{{ $comment->content }}</p>
     <p class="text-muted">
         {{ $comment->created_at->diffForHumans() }}
