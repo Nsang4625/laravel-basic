@@ -31,5 +31,11 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('delete-post', function($user, $post){ // lar authentication will automatically add $user
             return $user -> id == $post -> user_id;
         });
+        Gate::before(function($user, $ability){
+            if($user -> is_admin && in_array($ability, ['update-post'])){ // inside this array is ability for admin
+                // if we don't use in_array() it will provide all abilities
+                return true;// and it will run 2 upon gate check 
+            }
+        });
     }
 }
