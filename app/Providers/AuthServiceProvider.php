@@ -25,6 +25,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('update-post', function($user, $post){ // lar authentication will automatically add $user
+            return $user -> id == $post -> user_id;
+        });
     }
 }
