@@ -25,16 +25,20 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('update-post', function($user, $post){ // lar authentication will automatically add $user
-            return $user -> id == $post -> user_id;
-        });
-        Gate::define('delete-post', function($user, $post){ // lar authentication will automatically add $user
-            return $user -> id == $post -> user_id;
-        });
-        Gate::before(function($user, $ability){
-            if($user -> is_admin && in_array($ability, ['update-post'])){ // inside this array is ability for admin
+        // Gate::define('update-post', function($user, $post){ // lar authentication will automatically add $user
+        //     return $user -> id == $post -> user_id;
+        // });
+        // Gate::define('delete-post', function($user, $post){ // lar authentication will automatically add $user
+        //     return $user -> id == $post -> user_id;
+        // });
+        // Gate::define('posts.update', 'App\Policies\BlogPostPolicy@update');
+        // Gate::define('posts.delete', 'App\Policies\BlogPostPolicy@delete');
+            // like map a name as 'posts.update' to a method after @ 
+        Gate::resource('posts', 'App\Policies\BlogPostPolicy');// have all definition in policy file
+        Gate::before(function ($user, $ability) {
+            if ($user->is_admin && in_array($ability, ['posts.update'])) { // inside this array is ability for admin
                 // if we don't use in_array() it will provide all abilities
-                return true;// and it will run 2 upon gate check 
+                return true; // and it will run 2 upon gate check 
             }
         });
     }

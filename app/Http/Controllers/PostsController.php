@@ -113,7 +113,7 @@ class PostsController extends Controller
         // if(Gate::denies('update-post', $post)){// user will be passed auto by lar
         //     abort(403, 'You can not update this post');
         // }
-        $this->authorize('update-post', $post);
+        $this->authorize('posts.update', $post);
         return view('posts.edit', ['post' => $post]);
     }
 
@@ -130,7 +130,7 @@ class PostsController extends Controller
         // if(Gate::denies('update-post', $post)){// user will be passed auto by lar
         //     abort(403, 'You can not update this post');
         // }
-        $this -> authorize('update-post', $post);
+        $this -> authorize('posts.update', $post);
         $validated = $request->validated();
         $post->fill($validated);
         $post->save();
@@ -150,7 +150,7 @@ class PostsController extends Controller
         // if(Gate::denies('delete-post', $post)){// user will be passed auto by lar
         //     abort(403, 'You can not update this post');
         // }
-        $this -> authorize('delete-post', $post);
+        $this -> authorize('posts.delete', $post);
         $post->delete();
         session()->flash('status', 'Blog post was deleted');
         return redirect()->route('posts.index');
