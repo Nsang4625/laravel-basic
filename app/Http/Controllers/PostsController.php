@@ -83,13 +83,16 @@ class PostsController extends Controller
         // $post->save();
         // return redirect()->route('posts.show', ['post' => $post->id]);
         $validated = $request->validated();
+        $validated['user_id'] = $request -> user() -> id;
+
         $post = new BlogPost();
         $post->title = $validated['title'];
         $post->content = $validated['content'];
+        $post->user_id = $validated['user_id'];
         $post->save();
         /*
         $post = BlogPost::create($validated)
-        we can use this instead of 4 lines up here
+        we can use this instead of 5 lines up here
         */
 
 
