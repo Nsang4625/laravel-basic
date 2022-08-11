@@ -38,11 +38,14 @@ class AuthServiceProvider extends ServiceProvider
         // Gate::define('posts.delete', 'App\Policies\BlogPostPolicy@delete');
             // like map a name as 'posts.update' to a method after @ 
         // Gate::resource('posts', 'App\Policies\BlogPostPolicy');// have all definition in policy file
-        // Gate::before(function ($user, $ability) {
-        //     if ($user->is_admin && in_array($ability, ['posts.update'])) { // inside this array is ability for admin
-        //         // if we don't use in_array() it will provide all abilities
-        //         return true; // and it will run 2 upon gate check 
-        //     }
-        // });
+        Gate::before(function ($user, $ability) {
+            if ($user->is_admin && in_array($ability, ['delete', 'update'])) { // inside this array is ability for admin
+                // if we don't use in_array() it will provide all abilities
+                return true; // and it will run 2 upon gate check 
+            }
+        });
+        Gate::define('home.secret', function($user){
+            return $user -> is_admin;
+        });
     }
 }

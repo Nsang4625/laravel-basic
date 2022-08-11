@@ -98,3 +98,5 @@ Route::prefix('/fun')->name('fun.')->group(function () use ($posts) {
     });
 });
 */
+Route::get('/secret', [HomeController::class, 'secret'])
+    -> name('secret') ->middleware('can:home.secret');
