@@ -50,7 +50,7 @@ class PostsController extends Controller
 
         return view(
             'posts.index',
-             ['posts' => BlogPost::withCount('comments')->get()]);
+             ['posts' => BlogPost::lates()->withCount('comments')->get()]);
     }
 
     /**
@@ -112,7 +112,10 @@ class PostsController extends Controller
     {
         // abort_if(!isset($posts['id']), 404);
         return view('posts.show',
-         ['post' => BlogPost::with('comments')->findOrFail($id)]);
+         ['post' => BlogPost::with(['comments' => function($query){
+            return $query->latest();
+         }])
+         ->findOrFail($id)]);
     }
 
     /**
