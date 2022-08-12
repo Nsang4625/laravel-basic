@@ -14,7 +14,7 @@ class BlogPost extends Model
     use SoftDeletes;
     protected $fillable = ['title', 'content', 'user_id'];
     public function comments(){
-        return $this->hasMany('App\Models\Comment');//->latest()
+        return $this->hasMany('App\Models\Comment')->latest();
     }
     public function user(){
         return $this -> belongsTo('App\Models\User');
@@ -23,6 +23,12 @@ class BlogPost extends Model
     public function scopeLatest(Builder $query){
         return $query->orderBy(static::CREATED_AT, 'desc');
     }
+
+    public function scopeMostCommented(Builder $query){
+        return $query -> withCount('comments')// create a field comments_count
+        -> orderBy('comments_count', 'desc');
+    }
+
     public static function boot(){
         parent::boot();
         // static::addGlobalScope(new LatesScope);

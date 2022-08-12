@@ -111,11 +111,16 @@ class PostsController extends Controller
     public function show($id)
     {
         // abort_if(!isset($posts['id']), 404);
+        // return view('posts.show',
+        //  ['post' => BlogPost::with(['comments' => function($query){
+        //     return $query->latest();
+        //  }])
+        //  ->findOrFail($id)]);
         return view('posts.show',
-         ['post' => BlogPost::with(['comments' => function($query){
-            return $query->latest();
-         }])
-         ->findOrFail($id)]);
+        [
+            'post' => BlogPost::with('comments')->findOrFail($id),
+            'most_commented' => BlogPost::mostCommented() -> take(3) -> get()
+        ]);
     }
 
     /**
