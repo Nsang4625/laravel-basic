@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\DeletedAdminScope;
 use App\Scopes\LatesScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,8 +32,11 @@ class BlogPost extends Model
     }
 
     public static function boot(){
+        static::addGlobalScope(new DeletedAdminScope);
+        // add scope before boot because boot() will find and use SoftDeletes
         parent::boot();
         // static::addGlobalScope(new LatesScope);
+
         static::deleting(function (BlogPost $blogPost){
             $blogPost -> comments() -> delete();
         });

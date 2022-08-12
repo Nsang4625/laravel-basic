@@ -41,7 +41,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::before(function ($user, $ability) {
             if ($user->is_admin && in_array($ability, ['delete', 'update'])) { // inside this array is ability for admin
                 // if we don't use in_array() it will provide all abilities
-                return true; // and it will run 2 upon gate check 
+                return true; // and it will run all upon gate check 
             }
         });
         Gate::define('home.secret', function($user){
