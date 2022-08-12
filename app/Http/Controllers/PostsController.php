@@ -51,10 +51,10 @@ class PostsController extends Controller
 
         return view(
             'posts.index',
-             ['posts' => BlogPost::lates()->withCount('comments')->get(),
+             ['posts' => BlogPost::latest()->withCount('comments')->get(),
                     'most_commented' => BlogPost::mostCommented() -> take(3) -> get(),
                     'most_active' => User::withMostBlogPost() -> take(3) -> get(),
-                    'most_active_last_month' => User::witMostBlogPostLastMonth() -> take(3) -> get()
+                    'most_active_last_month' => User::withMostBlogPostLastMonth() -> take(3) -> get()
             ]);
     }
 

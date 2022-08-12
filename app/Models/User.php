@@ -43,7 +43,7 @@ class User extends Authenticable
         'email_verified_at' => 'datetime',
     ];
     public function blogPosts(){
-        return $this -> hasMany('App\Model\BlogPost');
+        return $this -> hasMany('App\Models\BlogPost');
     }
 
     public function scopeWithMostBlogPost(Builder $query){
@@ -57,7 +57,7 @@ class User extends Authenticable
         }]) //-> where('blog_posts_count', '>', 2) 
         // can't using this statement because blog_posts_count is fetched as an alias, not a 
         // real column of users table so we have to use 'has' statement
-        -> has('blog_posts_count', '>', 2)
+        // -> has('blog_posts_count', '>', 2)
         -> orderBy('blog_posts_count', 'desc');
     }
 }
