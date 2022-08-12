@@ -26,7 +26,7 @@ class BlogPost extends Model
 
     public function scopeMostCommented(Builder $query){
         return $query -> withCount('comments')// create a field comments_count as an alias 
-        // it's not a real column 
+        // it's not a real column of blogposts table
         -> orderBy('comments_count', 'desc');
     }
 

@@ -56,7 +56,7 @@ class User extends Authenticable
             $query -> whereBetween('created_at', [now()->subMonth(), now()]);
         }]) //-> where('blog_posts_count', '>', 2) 
         // can't using this statement because blog_posts_count is fetched as an alias, not a 
-        // real column so we have to use 'has' statement
+        // real column of users table so we have to use 'has' statement
         -> has('blog_posts_count', '>', 2)
         -> orderBy('blog_posts_count', 'desc');
     }
