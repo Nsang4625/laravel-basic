@@ -50,4 +50,14 @@ class User extends Authenticable
         return $query -> withCount('blogPosts') 
         -> orderBy('blog_posts_count', 'desc');
     }
+
+    public function scopeWithMostBlogPostLastMonth(Builder $query){
+        return $query -> withCount(['blogPosts' => function(Builder $query){
+            $query -> whereBetween('created_at', [now()->subMonth(), now()]);
+        }]) //-> where('blog_posts_count', '>', 2) 
+        // can't using this statement because blog_posts_count is fetched as an alias, not a 
+        // real column so we have to use 'has' statement
+        -> has('blog_posts_count', '>', 2)
+        -> orderBy('blog_posts_count', 'desc');
+    }
 }

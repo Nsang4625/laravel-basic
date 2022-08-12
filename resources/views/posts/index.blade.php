@@ -46,6 +46,19 @@
                         </ul>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Most active user last month</h5>
+                            <p class="card-text">User with most posts last month</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            @foreach ($most_active_last_month as $user)
+                                <h5>{{ $user->name }}</h5>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

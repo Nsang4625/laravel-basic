@@ -51,7 +51,11 @@ class PostsController extends Controller
 
         return view(
             'posts.index',
-             ['posts' => BlogPost::lates()->withCount('comments')->get()]);
+             ['posts' => BlogPost::lates()->withCount('comments')->get(),
+                    'most_commented' => BlogPost::mostCommented() -> take(3) -> get(),
+                    'most_active' => User::withMostBlogPost() -> take(3) -> get(),
+                    'most_active_last_month' => User::witMostBlogPostLastMonth() -> take(3) -> get()
+            ]);
     }
 
     /**
@@ -120,8 +124,6 @@ class PostsController extends Controller
         return view('posts.show',
         [
             'post' => BlogPost::with('comments')->findOrFail($id),
-            'most_commented' => BlogPost::mostCommented() -> take(3) -> get(),
-            'most_active' => User::withMostBlogPost() -> take(3) -> get()
         ]);
     }
 
