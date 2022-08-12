@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -43,5 +44,10 @@ class User extends Authenticable
     ];
     public function blogPosts(){
         return $this -> hasMany('App\Model\BlogPost');
+    }
+
+    public function scopeWithMostBlogPost(Builder $query){
+        return $query -> withCount('blogPosts') 
+        -> orderBy('blog_posts_count', 'desc');
     }
 }
