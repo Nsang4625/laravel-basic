@@ -8,7 +8,7 @@
 <h1>An old post</h1>    
 @endif
 
-@unless ($post['is_new'])
+@unless($post['is_new'])
     <div>This post is new... but using unless </div>
     @endunless
 @endunless
@@ -18,24 +18,26 @@
 @endisset --}}
 
 @section('content')
-<h1>
-    {{ $post->title }}
-    @badge(['type' => 'primary', 'show' => now()->diffInMinutes($post->created_at) < 5])
-        New post!
-    @endbadge
-</h1>
-<p>{{ $post->content }}</p>
-<p>Added {{ $post->created_at->diffForHumans() }} </p>
+    <h1>
+        {{ $post->title }}
+        @badge(['type' => 'primary', 'show' => now()->diffInMinutes($post->created_at) < 5])
+            New post!
+        @endbadge
+    </h1>
+    <p>{{ $post->content }}</p>
+    {{-- <p>Added {{ $post->created_at->diffForHumans() }} </p> --}}
+    @updated(['date' => $post->created_at])
+    @endupdated
 
-
-<h4>Comments</h4>
-@forelse ($post->comments as $comment)
-    <p>{{ $comment->content }}</p>
-    <p class="text-muted">
-        {{ $comment->created_at->diffForHumans() }}
-    </p>
-@empty
-    <h5>No comments yet!</h5>
-@endforelse
+    <h4>Comments</h4>
+    @forelse ($post->comments as $comment)
+        <p>{{ $comment->content }}</p>
+        <p class="text-muted">
+            {{-- {{ $comment->created_at->diffForHumans() }} --}}
+            @updated(['date' => $comment->created_at])
+            @endupdated
+        </p>
+    @empty
+        <h5>No comments yet!</h5>
+    @endforelse
 @endsection
-
