@@ -34,7 +34,6 @@ class BlogPost extends Model
     public static function boot(){
 
         static::addGlobalScope(new DeletedAdminScope);
-        // add scope before boot because boot() will find and use SoftDeletes
         parent::boot();
         // static::addGlobalScope(new LatesScope);
 
@@ -46,3 +45,4 @@ class BlogPost extends Model
         });
     }
 }
+        // add scope before boot because boot() will find and use SoftDeletes
