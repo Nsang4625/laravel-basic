@@ -1,6 +1,8 @@
 <?php
 namespace App\Providers;
 
+use App\View\Components\badge;
+use App\View\Components\updated;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+
     }
 
     /**
@@ -23,8 +26,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Blade::component('components.badge', 'badge');
-        Blade::component('components.updated', 'updated');
-        Blade::component('components.card', 'card');
+        // Blade::component( 'badge', badge::class);
+        // Blade::component('updated', updated::class);
+        // Blade::component('components.card', 'card');
     }
 }

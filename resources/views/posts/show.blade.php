@@ -20,22 +20,28 @@
 @section('content')
     <h1>
         {{ $post->title }}
-        @badge(['type' => 'primary', 'show' => now()->diffInMinutes($post->created_at) < 5])
+        {{-- @badge(['type' => 'primary', 'show' => now()->diffInMinutes($post->created_at) < 5])
             New post!
-        @endbadge
+        @endbadge --}}
+        @component('components.badge',['type' => 'primary', 'show' => now()->diffInMinutes($post->created_at) < 5])
+            New post!
+        @endcomponent
     </h1>
     <p>{{ $post->content }}</p>
     {{-- <p>Added {{ $post->created_at->diffForHumans() }} </p> --}}
-    @updated(['date' => $post->created_at])
-    @endupdated
-
+    {{-- @updated(['date' => $post->created_at])
+    @endupdated --}}
+    @component('components.updated', ['date' => $post->created_at] )
+    @endcomponent
     <h4>Comments</h4>
     @forelse ($post->comments as $comment)
         <p>{{ $comment->content }}</p>
         <p class="text-muted">
             {{-- {{ $comment->created_at->diffForHumans() }} --}}
-            @updated(['date' => $comment->created_at])
-            @endupdated
+            {{-- @updated()
+            @endupdated --}}
+            @component('components.updated', ['date' => $comment->created_at])
+            @endcomponent
         </p>
     @empty
         <h5>No comments yet!</h5>

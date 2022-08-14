@@ -7,15 +7,15 @@
         </del>
     @endif
 </h3>
-{{-- <p class="text-muted">
+<p class="text-muted">
     Added {{ $post->created_at->diffForHumans() }}
     by {{ $post->user->name }}
-</p> --}}
-@updated(['date' => $post->created_at, 'name' => $post->user->name] )
+</p>
+{{-- @updated(['date' => $post->created_at, 'name' => $post->user->name] )
 @endupdated
 
 @updated(['date' => $post->updated_at])
-@endupdated
+@endupdated --}}
 <div class="mb-3">
     @if ($post->comments_count)
         <p>{{ $post->comments_count }} comments </p>

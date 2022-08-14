@@ -32,20 +32,23 @@
                             @endforeach
                         </ul>
                     </div> --}}
-                    @card(['title' => 'Most commented post'])
-                    @slot('subtitle')
-                        What people are attractive
-                    @endslot
-                    @slot('items')
-                        @foreach ($most_commented as $post)
-                            <li class="list-group-item">
-                                <a href="{{ route('posts.show', ['post' => $post->id]) }}">
-                                    {{ $post->title }}
-                                </a>
-                            </li>
-                        @endforeach 
-                    @endslot
-                    @endcard()
+                    {{-- @card()
+                    
+                    @endcard() --}}
+                    @component('components.card', ['title' => 'Most commented post'])
+                        @slot('subtitle')
+                            What people are attractive
+                        @endslot
+                        @slot('items')
+                            @foreach ($most_commented as $post)
+                                <li class="list-group-item">
+                                    <a href="{{ route('posts.show', ['post' => $post->id]) }}">
+                                        {{ $post->title }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        @endslot
+                    @endcomponent
                 </div>
                 <div class="row">
                     {{-- <div class="card" style="width: 18rem;">
@@ -59,12 +62,12 @@
                             @endforeach
                         </ul>
                     </div> --}}
-                    @card(['title' => 'Most active user'])
-                    @slot('subtitle')
-                        User with most posts
-                    @endslot
-                    @slot('items', collect($most_active)->pluck('name'))
-                    @endcard()
+                    @component('components.card', ['title' => 'Most active user'])
+                        @slot('subtitle')
+                            User with most posts
+                        @endslot
+                        @slot('items', collect($most_active)->pluck('name'))
+                    @endcomponent
                 </div>
                 <div class="row">
                     {{-- <div class="card" style="width: 18rem;">
@@ -78,11 +81,10 @@
                             @endforeach
                         </ul>
                     </div> --}}
-                    @card(['title' => 'Most active user last month',
-                    'subtitle' => 'User with most posts last month'
-                    ])
-                    @slot('items', collect($most_active_last_month)->pluck('name'))
-                    @endcard()
+                    @component('components.card',
+                        ['title' => 'Most active user last month', 'subtitle' => 'User with most posts last month'])
+                        @slot('items', collect($most_active_last_month)->pluck('name'))
+                    @endcomponent
                 </div>
             </div>
         </div>
