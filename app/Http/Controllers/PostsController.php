@@ -49,23 +49,25 @@ class PostsController extends Controller
     {
         //DB::connection()->enableQueryLog();// this will enable logging of all
         // queries that are made inside laravel
-        $mostCommented = Cache::remember('mostCommented', now()->addMinutes(5), function(){
-            return BlogPost::mostCommented() -> take(3) -> get();
+        $mostCommented = Cache::remember('mostCommented', now()->addMinutes(5), function () {
+            return BlogPost::mostCommented()->take(3)->get();
         });
-        $mostActive = Cache::remember('mostActive', now()->addMinutes(5), function(){
-            return User::withMostBlogPost() -> take(3) -> get();
+        $mostActive = Cache::remember('mostActive', now()->addMinutes(5), function () {
+            return User::withMostBlogPost()->take(3)->get();
         });
-        $mostActiveLastMonth = Cache::remember('mostActiveLastMonth', now()->addMinutes(5), function(){
-            return User::withMostBlogPostLastMonth() -> take(3) -> get();
+        $mostActiveLastMonth = Cache::remember('mostActiveLastMonth', now()->addMinutes(5), function () {
+            return User::withMostBlogPostLastMonth()->take(3)->get();
         });
 
         return view(
             'posts.index',
-             ['posts' => BlogPost::latest()->withCount('comments')->with('user')->get(),
-                    'most_commented' => $mostCommented,
-                    'most_active' => $mostActive,
-                    'most_active_last_month' => $mostActiveLastMonth
-            ]);
+            [
+                'posts' => BlogPost::latest()->withCount('comments')->with('user')->get(),
+                'most_commented' => $mostCommented,
+                'most_active' => $mostActive,
+                'most_active_last_month' => $mostActiveLastMonth
+            ]
+        );
     }
 
     /**
@@ -98,7 +100,7 @@ class PostsController extends Controller
         // $post->save();
         // return redirect()->route('posts.show', ['post' => $post->id]);
         $validated = $request->validated();
-        $validated['user_id'] = $request -> user() -> id;
+        $validated['user_id'] = $request->user()->id;
 
         $post = new BlogPost();
         $post->title = $validated['title'];
@@ -112,7 +114,7 @@ class PostsController extends Controller
 
 
 
-        
+
         $request->session()->flash('status', 'Blog post was created!');
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
@@ -131,12 +133,16 @@ class PostsController extends Controller
         //     return $query->latest();
         //  }])
         //  ->findOrFail($id)]);
-        return view('posts.show',
-        [
-            'post' => BlogPost::with('comments')->findOrFail($id),
-        ]);
+        $blogPost = Cache::remember("blog-post-{$id}", 60, function () use ($id) {
+            return BlogPost::with('comments')->findOrFail($id);
+        });
+        return view(
+            'posts.show',
+            [
+                'post' => $blogPost
+            ]
+        );
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -168,7 +174,7 @@ class PostsController extends Controller
         // if(Gate::denies('update-post', $post)){// user will be passed auto by lar
         //     abort(403, 'You can not update this post');
         // }
-        $this -> authorize('update', $post);
+        $this->authorize('update', $post);
         $validated = $request->validated();
         $post->fill($validated);
         $post->save();
@@ -189,7 +195,7 @@ class PostsController extends Controller
         //     abort(403, 'You can not update this post');
         // }
         // $this -> authorize('posts.delete', $post);
-        $this -> authorize('delete', $post);// laravel will automatically use exact policy for $post
+        $this->authorize('delete', $post); // laravel will automatically use exact policy for $post
         $post->delete();
         session()->flash('status', 'Blog post was deleted');
         return redirect()->route('posts.index');
