@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Auth\Access\Gate;
+use Illuminate\Support\Facades\Cache;
 
 // laravel automatically converts these method to ability of model's policy
 // [
@@ -48,13 +49,22 @@ class PostsController extends Controller
     {
         //DB::connection()->enableQueryLog();// this will enable logging of all
         // queries that are made inside laravel
+        $mostCommented = Cache::remember('mostCommented', now()->addMinutes(5), function(){
+            return BlogPost::mostCommented() -> take(3) -> get();
+        });
+        $mostActive = Cache::remember('mostActive', now()->addMinutes(5), function(){
+            return User::withMostBlogPost() -> take(3) -> get();
+        });
+        $mostActiveLastMonth = Cache::remember('mostActiveLastMonth', now()->addMinutes(5), function(){
+            return User::withMostBlogPostLastMonth() -> take(3) -> get();
+        });
 
         return view(
             'posts.index',
              ['posts' => BlogPost::latest()->withCount('comments')->with('user')->get(),
-                    'most_commented' => BlogPost::mostCommented() -> take(3) -> get(),
-                    'most_active' => User::withMostBlogPost() -> take(3) -> get(),
-                    'most_active_last_month' => User::withMostBlogPostLastMonth() -> take(3) -> get()
+                    'most_commented' => $mostCommented,
+                    'most_active' => $mostActive,
+                    'most_active_last_month' => $mostActiveLastMonth
             ]);
     }
 
