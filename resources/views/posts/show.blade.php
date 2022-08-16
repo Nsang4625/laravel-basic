@@ -33,6 +33,10 @@
     @endupdated --}}
     @component('components.updated', ['date' => $post->created_at] )
     @endcomponent
+    <p>
+        Currently read by {{ $counter }} people
+    </p>
+
     <h4>Comments</h4>
     @forelse ($post->comments as $comment)
         <p>{{ $comment->content }}</p>

@@ -136,10 +136,41 @@ class PostsController extends Controller
         $blogPost = Cache::remember("blog-post-{$id}", 60, function () use ($id) {
             return BlogPost::with('comments')->findOrFail($id);
         });
+        $sessionId = session() -> getId();// get user's session
+        $counterKey = "blog-post-{$id}-counter";
+        // count users on page
+        $usersKey = "blog-post-{$id}-users"; 
+        // fetch and store data about users that visited the page 
+        $users = Cache::get($usersKey, []);
+        $userUpdate = [];
+        $difference = 0;
+        $now = now();
+        foreach($users as $session => $lastVisited){
+            if($now->diffInMinutes($lastVisited) >= 1){
+                $difference --;
+            } else {
+                $userUpdate[$session] = $lastVisited;
+            }
+        }
+
+        if(!array_key_exists($sessionId, $users)
+            || $now->diffInMinutes($users[$sessionId]) >=1 ){
+            $difference++;
+        }
+        $userUpdate[$sessionId] = $now;
+        Cache::forever($usersKey, $userUpdate);
+        Cache::increment($counterKey, $difference);
+        if(!Cache::has($counterKey)){
+            Cache::forever($counterKey, 1);
+        }else {
+            Cache::increment($counterKey, $difference);
+        }
+        $counter = Cache::get($counterKey);
         return view(
             'posts.show',
             [
-                'post' => $blogPost
+                'post' => $blogPost,
+                'counter' => $counter
             ]
         );
     }
