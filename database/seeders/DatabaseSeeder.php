@@ -6,6 +6,7 @@ use App\Models\BlogPost;
 use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 // use Database\Factories\UserFactory;
@@ -43,6 +44,7 @@ class DatabaseSeeder extends Seeder
             $comment -> save();
         });
         */
+        Cache::tags(['blog-post'])->flush();
         $this->call([
             UsersTableSeeder::class,
             BlogPostsTableSeeder::class,

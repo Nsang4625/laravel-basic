@@ -49,23 +49,23 @@ class PostsController extends Controller
     {
         //DB::connection()->enableQueryLog();// this will enable logging of all
         // queries that are made inside laravel
-        $mostCommented = Cache::remember('mostCommented', now()->addMinutes(5), function () {
-            return BlogPost::mostCommented()->take(3)->get();
-        });
-        $mostActive = Cache::remember('mostActive', now()->addMinutes(5), function () {
-            return User::withMostBlogPost()->take(3)->get();
-        });
-        $mostActiveLastMonth = Cache::remember('mostActiveLastMonth', now()->addMinutes(5), function () {
-            return User::withMostBlogPostLastMonth()->take(3)->get();
-        });
+        // $mostCommented = Cache::remember('mostCommented', now()->addMinutes(5), function () {
+        //     return BlogPost::mostCommented()->take(3)->get();
+        // });
+        // $mostActive = Cache::remember('mostActive', now()->addMinutes(5), function () {
+        //     return User::withMostBlogPost()->take(3)->get();
+        // });
+        // $mostActiveLastMonth = Cache::remember('mostActiveLastMonth', now()->addMinutes(5), function () {
+        //     return User::withMostBlogPostLastMonth()->take(3)->get();
+        // });
 
         return view(
             'posts.index',
             [
                 'posts' => BlogPost::latest()->withCount('comments')->with('user')->get(),
-                'most_commented' => $mostCommented,
-                'most_active' => $mostActive,
-                'most_active_last_month' => $mostActiveLastMonth
+                'most_commented' => BlogPost::mostCommented()->take(3)->get(),//$mostCommented,
+                'most_active' => User::withMostBlogPost()->take(3)->get(),//$mostActive,
+                'most_active_last_month' =>  User::withMostBlogPostLastMonth()->take(3)->get(),//$mostActiveLastMonth
             ]
         );
     }
@@ -133,7 +133,7 @@ class PostsController extends Controller
         //     return $query->latest();
         //  }])
         //  ->findOrFail($id)]);
-        $blogPost = Cache::remember("blog-post-{$id}", 60, function () use ($id) {
+        $blogPost = Cache::tags(['blog-post'])->remember("blog-post-{$id}", 60, function () use ($id) {
             return BlogPost::with('comments')->findOrFail($id);
         });
         $sessionId = session()->getId(); // get user's session
@@ -160,14 +160,13 @@ class PostsController extends Controller
             $difference++;
         }
         $userUpdate[$sessionId] = $now;
-        Cache::forever($usersKey, $userUpdate);
-        Cache::increment($counterKey, $difference);
-        if (!Cache::has($counterKey)) {
-            Cache::forever($counterKey, 1);
+        Cache::tags(['blog-post'])->forever($usersKey, $userUpdate);
+        if (!Cache::tags(['blog-post'])->has($counterKey)) {
+            Cache::tags(['blog-post'])->forever($counterKey, 1);
         } else {
-            Cache::increment($counterKey, $difference);
+            Cache::tags(['blog-post'])->increment($counterKey, $difference);
         }
-        $counter = Cache::get($counterKey);
+        $counter = Cache::tags(['blog-post'])->get($counterKey);
         return view(
             'posts.show',
             [
