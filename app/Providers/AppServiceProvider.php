@@ -30,6 +30,6 @@ class AppServiceProvider extends ServiceProvider
         // Blade::component( 'badge', badge::class);
         // Blade::component('updated', updated::class);
         // Blade::component('components.card', 'card');
-        view()->composer('posts.index', ActivityComposer::class);
+        view()->composer(['posts.index', 'posts.show'], ActivityComposer::class);
     }
 }

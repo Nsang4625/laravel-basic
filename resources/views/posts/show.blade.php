@@ -18,39 +18,46 @@
 @endisset --}}
 
 @section('content')
-    <h1>
-        {{ $post->title }}
-        {{-- @badge(['type' => 'primary', 'show' => now()->diffInMinutes($post->created_at) < 5])
+    <div class="row">
+        <div class="col-8">
+            <h1>
+                {{ $post->title }}
+                {{-- @badge(['type' => 'primary', 'show' => now()->diffInMinutes($post->created_at) < 5])
             New post!
         @endbadge --}}
-        @component('components.badge', ['type' => 'primary', 'show' => now()->diffInMinutes($post->created_at) < 5])
-            New post!
-        @endcomponent
-    </h1>
-    <p>{{ $post->content }}</p>
-    {{-- <p>Added {{ $post->created_at->diffForHumans() }} </p> --}}
-    {{-- @updated(['date' => $post->created_at])
+                @component('components.badge', ['type' => 'primary', 'show' => now()->diffInMinutes($post->created_at) < 5])
+                    New post!
+                @endcomponent
+            </h1>
+            <p>{{ $post->content }}</p>
+            {{-- <p>Added {{ $post->created_at->diffForHumans() }} </p> --}}
+            {{-- @updated(['date' => $post->created_at])
     @endupdated --}}
-    @component('components.updated', ['date' => $post->created_at])
-    @endcomponent
-    <p>
-        Currently read by {{ $counter }} people
-    </p>
-
-    @component('components.tags', ['tags' => $post->tags])
-    @endcomponent
-     
-    <h4>Comments</h4>
-    @forelse ($post->comments as $comment)
-        <p>{{ $comment->content }}</p>
-        <p class="text-muted">
-            {{-- {{ $comment->created_at->diffForHumans() }} --}}
-            {{-- @updated()
-            @endupdated --}}
-            @component('components.updated', ['date' => $comment->created_at])
+            @component('components.updated', ['date' => $post->created_at])
             @endcomponent
-        </p>
-    @empty
-        <h5>No comments yet!</h5>
-    @endforelse
+            <p>
+                Currently read by {{ $counter }} people
+            </p>
+
+            @component('components.tags', ['tags' => $post->tags])
+            @endcomponent
+
+            <h4>Comments</h4>
+            @forelse ($post->comments as $comment)
+                <p>{{ $comment->content }}</p>
+                <p class="text-muted">
+                    {{-- {{ $comment->created_at->diffForHumans() }} --}}
+                    {{-- @updated()
+            @endupdated --}}
+                    @component('components.updated', ['date' => $comment->created_at])
+                    @endcomponent
+                </p>
+            @empty
+                <h5>No comments yet!</h5>
+            @endforelse
+        </div>
+        <div class="col-4">
+            @include('posts.partial.activity')
+        </div>
+    </div>
 @endsection
