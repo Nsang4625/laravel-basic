@@ -17,6 +17,8 @@
 
 @updated(['date' => $post->updated_at])
 @endupdated --}}
+@component('components.tags', ['tags' => $post->tags]) 
+@endcomponent
 <div class="mb-3">
     @if ($post->comments_count)
         <p>{{ $post->comments_count }} comments </p>

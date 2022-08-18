@@ -23,7 +23,7 @@
         {{-- @badge(['type' => 'primary', 'show' => now()->diffInMinutes($post->created_at) < 5])
             New post!
         @endbadge --}}
-        @component('components.badge',['type' => 'primary', 'show' => now()->diffInMinutes($post->created_at) < 5])
+        @component('components.badge', ['type' => 'primary', 'show' => now()->diffInMinutes($post->created_at) < 5])
             New post!
         @endcomponent
     </h1>
@@ -31,12 +31,15 @@
     {{-- <p>Added {{ $post->created_at->diffForHumans() }} </p> --}}
     {{-- @updated(['date' => $post->created_at])
     @endupdated --}}
-    @component('components.updated', ['date' => $post->created_at] )
+    @component('components.updated', ['date' => $post->created_at])
     @endcomponent
     <p>
         Currently read by {{ $counter }} people
     </p>
 
+    @component('components.tags', ['tags' => $post->tags])
+    @endcomponent
+     
     <h4>Comments</h4>
     @forelse ($post->comments as $comment)
         <p>{{ $comment->content }}</p>

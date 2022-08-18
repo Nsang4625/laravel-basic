@@ -22,7 +22,8 @@ class BlogPost extends Model
         return $this -> belongsTo('App\Models\User');
     }
     public function tags(){
-        return $this -> belongsToMany('App\Models\Tag');
+        return $this -> belongsToMany('App\Models\Tag')
+            ->withTimestamps();
     }
 
     public function scopeLatest(Builder $query){
