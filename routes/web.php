@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostCommentController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\PostTagController;
 use Illuminate\Http\Request;
@@ -39,7 +40,7 @@ Route::get('/contact', [HomeController::class, 'contact'])
 Route::get('/single', AboutController::class);
 // with single action controller like above
 //we don't need to pass the name function
-Auth::routes();
+
 
 // to use $posts below, we must spend 'use' statement
 /*
@@ -68,6 +69,13 @@ Route::resource('posts', PostsController::class);
 Route::get('/recent-post/{days_Ago?}', function ($daysAgo = 20) {
     return 'Posts from ' . $daysAgo . ' days ago';
 })->name('posts.recent.index');
+Route::get('/secret', [HomeController::class, 'secret'])
+    -> name('secret') ->middleware('can:home.secret');
+Route::get('/posts/tag/{tag}', [PostTagController::class, 'index'])
+    -> name('posts.tags.index');
+Route::resource('posts.comments', PostCommentController::class)
+    -> only(['store']);
+Auth::routes();
 // optional parameter
 /*
 Route::get('/fun/response', function () use ($posts) {
@@ -99,7 +107,3 @@ Route::prefix('/fun')->name('fun.')->group(function () use ($posts) {
     });
 });
 */
-Route::get('/secret', [HomeController::class, 'secret'])
-    -> name('secret') ->middleware('can:home.secret');
-Route::get('/posts/tag/{tag}', [PostTagController::class, 'index'])
-    -> name('posts.tags.index');
