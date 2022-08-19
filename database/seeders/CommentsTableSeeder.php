@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Comment;
 use App\Models\BlogPost;
+use App\Models\User;
+
 class CommentsTableSeeder extends Seeder
 {
     /**
@@ -15,10 +17,12 @@ class CommentsTableSeeder extends Seeder
     public function run()
     {
         $posts = BlogPost::all();
+        $users = User::all();
         Comment::factory()->count(100)
-        ->make()->each( function($comment) use ($posts)
+        ->make()->each( function($comment) use ($posts, $users)
         {
             # code...
+            $comment -> user_id = $users -> random() -> id;
             $comment -> blog_post_id = $posts -> random() -> id;
             $comment -> save();
         });

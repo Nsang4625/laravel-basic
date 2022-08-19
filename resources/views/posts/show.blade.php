@@ -33,7 +33,8 @@
             {{-- <p>Added {{ $post->created_at->diffForHumans() }} </p> --}}
             {{-- @updated(['date' => $post->created_at])
     @endupdated --}}
-            @component('components.updated', ['date' => $post->created_at])
+            @component('components.updated', ['date' => $post->created_at,
+             'name' => $post->user->name])
             @endcomponent
             <p>
                 Currently read by {{ $counter }} people
@@ -49,7 +50,8 @@
                     {{-- {{ $comment->created_at->diffForHumans() }} --}}
                     {{-- @updated()
             @endupdated --}}
-                    @component('components.updated', ['date' => $comment->created_at])
+                    @component('components.updated', ['date' => $comment->created_at,
+                    'name' => $comment->user->name])
                     @endcomponent
                 </p>
             @empty
