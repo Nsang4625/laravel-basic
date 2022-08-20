@@ -63,7 +63,7 @@ class PostsController extends Controller
             'posts.index',
             [
                 'posts' => BlogPost::latest()->withCount('comments')->with('user')
-                ->with('tags')->get(),
+                ->with('tags')->get()
                 // 'most_commented' => BlogPost::mostCommented()->take(3)->get(),//$mostCommented,
                 // 'most_active' => User::withMostBlogPost()->take(3)->get(),//$mostActive,
                 // 'most_active_last_month' =>  User::withMostBlogPostLastMonth()->take(3)->get(),//$mostActiveLastMonth
@@ -135,7 +135,9 @@ class PostsController extends Controller
         //  }])
         //  ->findOrFail($id)]);
         $blogPost = Cache::tags(['blog-post'])->remember("blog-post-{$id}", 60, function () use ($id) {
-            return BlogPost::with('comments')->with('tags')
+            return BlogPost::with('comments')
+            ->with('tags')
+            ->with('comments.user')// fetch another related model of previous related model 
             ->with('user')->findOrFail($id);
         });
         $sessionId = session()->getId(); // get user's session

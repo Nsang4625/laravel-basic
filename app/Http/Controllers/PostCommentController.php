@@ -14,7 +14,7 @@ class PostCommentController extends Controller
     }
     public function store(StoreComment $request, BlogPost $post)
     {
-        $post -> comments() -> create([
+        $post->comments()->create([
             'user_id' => $request->user()->id,
             'content' => $request->input('content')
         ]);
