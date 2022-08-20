@@ -102,12 +102,18 @@ class PostsController extends Controller
         // return redirect()->route('posts.show', ['post' => $post->id]);
         $validated = $request->validated();
         $validated['user_id'] = $request->user()->id;
-
+        
         $post = new BlogPost();
         $post->title = $validated['title'];
         $post->content = $validated['content'];
         $post->user_id = $validated['user_id'];
         $post->save();
+
+        $hasFile = $request->hasFile('thumbnail');
+        if($hasFile){
+            $file = $request->file('thumbnail');
+            $file->store('photo');//inside the brackets is folder name for that img 
+        }
         /*
         $post = BlogPost::create($validated)
         we can use this instead of 5 lines up here
