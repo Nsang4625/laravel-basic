@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\File;
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
 use App\Models\User;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 // laravel automatically converts these method to ability of model's policy
 // [
@@ -113,6 +115,8 @@ class PostsController extends Controller
         if($hasFile){
             $file = $request->file('thumbnail');
             $file->store('photo');//inside the brackets is folder name for that img 
+            // another way: use Storage facade
+            //Storage::disk('public')->put('photo', $file);
         }
         /*
         $post = BlogPost::create($validated)
