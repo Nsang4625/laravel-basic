@@ -18,8 +18,8 @@ class ActivityComposer{
         $mostActiveLastMonth = Cache::remember('mostActiveLastMonth', now()->addMinutes(5), function () {
             return User::withMostBlogPostLastMonth()->take(3)->get();
         });
-        $view->with('mostCommented', $mostCommented);
-        $view->with('mostActive', $mostActive);
-        $view->with('mostActiveLastMonth', $mostActiveLastMonth);
+        $view->with('most_commented', $mostCommented);
+        $view->with('most_active', $mostActive);
+        $view->with('most_active_last_month', $mostActiveLastMonth);
     }
 }
