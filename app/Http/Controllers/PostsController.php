@@ -66,7 +66,7 @@ class PostsController extends Controller
             [
                 'posts' => BlogPost::latest()->withCount('comments')->with('user')
                 ->with('tags')->get()
-                // 'most_commented' => BlogPost::mostCommented()->take(3)->get(),//$mostCommented,
+                // 'most_commented'  => BlogPost::mostCommented()->take(3)->get(),//$mostCommented,
                 // 'most_active' => User::withMostBlogPost()->take(3)->get(),//$mostActive,
                 // 'most_active_last_month' =>  User::withMostBlogPostLastMonth()->take(3)->get(),//$mostActiveLastMonth
             ]
@@ -114,9 +114,12 @@ class PostsController extends Controller
         $hasFile = $request->hasFile('thumbnail');
         if($hasFile){
             $file = $request->file('thumbnail');
-            $file->store('photo');//inside the brackets is folder name for that img 
+            $file->store('photo');//inside the brackets is folder name for that img
+            // this is a shortcut for using Storage facade
             // another way: use Storage facade
-            //Storage::disk('public')->put('photo', $file);
+            Storage::putFile('photo', $file);
+            $file->storeAs('photo', $post->id . '.' . $file->guessExtension());
+            Storage::putFileAs('photo', $file, $post->id . '.' . $file->guessExtension());
         }
         /*
         $post = BlogPost::create($validated)
