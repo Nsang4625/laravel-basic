@@ -20,40 +20,51 @@
 @section('content')
     <div class="row">
         <div class="col-8">
-            <h1>
-                {{ $post->title }}
-                @component('components.badge', ['type' => 'primary', 'show' => now()->diffInMinutes($post->created_at) < 5])
-                    New post!
+            @if ($post->image)
+                <div
+                    style="background-image: url('{{ $post->image->url() }}'); min-height: 500px; color: white; text-align: center; background-attachment: fixed;">
+                    <h1 style="padding-top: 100px; text-shadow: 1px 2px #000">
+            @else
+                    <h1>
+            @endif
+            {{ $post->title }}
+            @component('components.badge', ['type' => 'primary', 'show' => now()->diffInMinutes($post->created_at) < 5])
+                New post!
+            @endcomponent
+            @if ($post->image)
+                    </h1>
+                </div>
+            @else
+                </h1>
+            @endif
+
+
+        <p>{{ $post->content }}</p>
+        {{-- <img src="{{ Storage::url($post->image->path) }}"> the first way --}}
+        {{-- <img src="{{ $post->image->path }}"> --}}
+        @component('components.updated', ['date' => $post->created_at, 'name' => $post->user->name])
+        @endcomponent
+        <p>
+            Currently read by {{ $counter }} people
+        </p>
+
+        @component('components.tags', ['tags' => $post->tags])
+        @endcomponent
+
+        <h4>Comments</h4>
+        @include('comments._form')
+        @forelse ($post->comments as $comment)
+            <p>{{ $comment->content }}</p>
+            <p class="text-muted">
+                @component('components.updated', ['date' => $comment->created_at, 'name' => $comment->user->name])
                 @endcomponent
-            </h1>
-            <p>{{ $post->content }}</p>
-            {{-- <img src="{{ Storage::url($post->image->path) }}"> the first way --}}
-            <img src="{{ $post->image->path }}">
-            @component('components.updated', ['date' => $post->created_at,
-             'name' => $post->user->name])
-            @endcomponent
-            <p>
-                Currently read by {{ $counter }} people
             </p>
-
-            @component('components.tags', ['tags' => $post->tags])
-            @endcomponent
-
-            <h4>Comments</h4>
-            @include('comments._form')
-            @forelse ($post->comments as $comment)
-                <p>{{ $comment->content }}</p>
-                <p class="text-muted">
-                    @component('components.updated', ['date' => $comment->created_at,
-                    'name' => $comment->user->name])
-                    @endcomponent
-                </p>
-            @empty
-                <h5>No comments yet!</h5>
-            @endforelse
-        </div>
-        <div class="col-4">
-            @include('posts.partial.activity')
-        </div>
+        @empty
+            <h5>No comments yet!</h5>
+        @endforelse
+    </div>
+    <div class="col-4">
+        @include('posts.partial.activity')
+    </div>
     </div>
 @endsection
