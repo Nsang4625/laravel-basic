@@ -22,17 +22,13 @@
         <div class="col-8">
             <h1>
                 {{ $post->title }}
-                {{-- @badge(['type' => 'primary', 'show' => now()->diffInMinutes($post->created_at) < 5])
-            New post!
-        @endbadge --}}
                 @component('components.badge', ['type' => 'primary', 'show' => now()->diffInMinutes($post->created_at) < 5])
                     New post!
                 @endcomponent
             </h1>
             <p>{{ $post->content }}</p>
-            {{-- <p>Added {{ $post->created_at->diffForHumans() }} </p> --}}
-            {{-- @updated(['date' => $post->created_at])
-    @endupdated --}}
+            {{-- <img src="{{ Storage::url($post->image->path) }}"> the first way --}}
+            <img src="{{ $post->image->path }}">
             @component('components.updated', ['date' => $post->created_at,
              'name' => $post->user->name])
             @endcomponent
@@ -48,9 +44,6 @@
             @forelse ($post->comments as $comment)
                 <p>{{ $comment->content }}</p>
                 <p class="text-muted">
-                    {{-- {{ $comment->created_at->diffForHumans() }} --}}
-                    {{-- @updated()
-            @endupdated --}}
                     @component('components.updated', ['date' => $comment->created_at,
                     'name' => $comment->user->name])
                     @endcomponent
