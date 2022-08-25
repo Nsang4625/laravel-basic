@@ -18,6 +18,9 @@ class BlogPost extends Model
     public function comments(){
         return $this->hasMany('App\Models\Comment')->latest();
     }
+    public function image(){
+        return $this->hasOne(Image::class);
+    }
     public function user(){
         return $this -> belongsTo('App\Models\User');
     }

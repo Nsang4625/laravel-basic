@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\File;
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
+use App\Models\Image;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Auth\Access\Gate;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
@@ -111,15 +113,16 @@ class PostsController extends Controller
         $post->user_id = $validated['user_id'];
         $post->save();
 
-        $hasFile = $request->hasFile('thumbnail');
-        if($hasFile){
-            $file = $request->file('thumbnail');
-            $file->store('photo');//inside the brackets is folder name for that img
-            // this is a shortcut for using Storage facade
-            // another way: use Storage facade
-            Storage::putFile('photo', $file);
-            $file->storeAs('photo', $post->id . '.' . $file->guessExtension());
-            Storage::putFileAs('photo', $file, $post->id . '.' . $file->guessExtension());
+        
+        if($request->hasFile('thumbnail')){
+            $path = $request->file('thumbnail')->store('photo');
+            $post->image()->save(
+                Image::create(['path' => $path])
+            );
+            // $file->store('photo');//inside the brackets is folder name for that img
+            // Storage::putFile('photo', $file);
+            // $file->storeAs('photo', $post->id . '.' . $file->guessExtension());
+            // Storage::putFileAs('photo', $file, $post->id . '.' . $file->guessExtension());
         }
         /*
         $post = BlogPost::create($validated)
