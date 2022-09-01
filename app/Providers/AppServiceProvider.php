@@ -5,6 +5,7 @@ use App\Http\ViewComposers\ActivityComposer;
 use App\View\Components\badge;
 use App\View\Components\updated;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Schema::defaultStringLength(191);
         // Blade::component( 'badge', badge::class);
         // Blade::component('updated', updated::class);
         // Blade::component('components.card', 'card');
