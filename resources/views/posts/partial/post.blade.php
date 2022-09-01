@@ -14,9 +14,11 @@
 </p>
 {{-- @updated(['date' => $post->created_at, 'name' => $post->user->name] )
 @endupdated
-
 @updated(['date' => $post->updated_at])
 @endupdated --}}
+@component('components.updated', ['date' => $post->created_at, 'name' => $post->user->name,
+    'userId' => $post->user->id])
+@endcomponent
 @component('components.tags', ['tags' => $post->tags]) 
 @endcomponent
 <div class="mb-3">
