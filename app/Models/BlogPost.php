@@ -19,7 +19,7 @@ class BlogPost extends Model
         return $this->hasMany('App\Models\Comment')->latest();
     }
     public function image(){
-        return $this->hasOne(Image::class);
+        return $this->morphOne('App\Models\Image', 'imageable');
     }
     public function user(){
         return $this -> belongsTo('App\Models\User');

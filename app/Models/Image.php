@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Storage;
 class Image extends Model
 {
     use HasFactory;
-    protected $fillable = ['path', 'blog_post_id'];
-    public function blogPost(){
-        return $this -> belongsTo(BlogPost::class);
+    protected $fillable = ['path'];
+    public function imageable(){
+        return $this -> morphTo();
         }
     public function url(){
         return Storage::url($this->path);

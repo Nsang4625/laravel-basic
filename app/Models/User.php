@@ -46,7 +46,10 @@ class User extends Authenticable
         return $this -> hasMany('App\Models\BlogPost');
     }
     public function comments(){
-        return $this -> hasMany(Comment::class);
+        return $this ->hasMany(Comment::class);
+    }
+    public function image(){
+        return $this -> morphOne('App\Models\Image', 'imageable');
     }
 
     public function scopeWithMostBlogPost(Builder $query){
