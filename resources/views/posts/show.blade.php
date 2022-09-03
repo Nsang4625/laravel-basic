@@ -52,16 +52,11 @@
         @endcomponent
 
         <h4>Comments</h4>
-        @include('comments._form')
-        @forelse ($post->comments as $comment)
-            <p>{{ $comment->content }}</p>
-            <p class="text-muted">
-                @component('components.updated', ['date' => $comment->created_at, 'name' => $comment->user->name])
-                @endcomponent
-            </p>
-        @empty
-            <h5>No comments yet!</h5>
-        @endforelse
+        @component('components.comment-form', [
+            'route' => route('posts.comments.store',['post' => $post->id ])])
+        @endcomponent
+        @component('components.comment-list', ['comments' => $post->comments])
+        @endcomponent
     </div>
     <div class="col-4">
         @include('posts.partial.activity')
