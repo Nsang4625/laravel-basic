@@ -71,11 +71,13 @@ Route::get('/recent-post/{days_Ago?}', function ($daysAgo = 20) {
     return 'Posts from ' . $daysAgo . ' days ago';
 })->name('posts.recent.index');
 Route::get('/secret', [HomeController::class, 'secret'])
-    -> name('secret') ->middleware('can:home.secret');
+    ->name('secret')->middleware('can:home.secret');
 Route::get('/posts/tag/{tag}', [PostTagController::class, 'index'])
-    -> name('posts.tags.index');
+    ->name('posts.tags.index');
 Route::resource('posts.comments', PostCommentController::class)
-    -> only(['store']);
+    ->only(['store']);
+Route::resource('users.comments', UserCommentController::class)
+    ->only(['store']);
 Route::resource('users', UserController::class)->only(['show', 'edit', 'update']);
 Auth::routes();
 // optional parameter
