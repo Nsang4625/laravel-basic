@@ -16,7 +16,7 @@ class BlogPost extends Model
     use SoftDeletes;
     protected $fillable = ['title', 'content', 'user_id'];
     public function comments(){
-        return $this->hasMany('App\Models\Comment')->latest();
+        return $this->morphMany('App\Models\Comment', 'commentable')->latest();
     }
     public function image(){
         return $this->morphOne('App\Models\Image', 'imageable');

@@ -16,8 +16,8 @@ class Comment extends Model
     public function scopeLatest(Builder $query){
         return $query->orderBy(static::CREATED_AT, 'desc');
     }
-    public function blogPost(){
-        return $this->belongsTo('App\Models\BlogPost');
+    public function commentable(){
+        return $this->morphTo();
     }
     public function user(){
         return $this->belongsTo(User::class);
@@ -25,7 +25,9 @@ class Comment extends Model
     public static function boot(){
         parent::boot();
         static::creating(function(Comment $comment){
-            Cache::tags(['blog-post'])->forget("blog-post-{$comment->blog_post_id}");
+            if($comment->commentable_type === BlogPost::class){
+                Cache::tags(['blog-post'])->forget("blog-post-{$comment->blog_post_id}");
+            } 
         });
     }
 }

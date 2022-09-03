@@ -48,6 +48,9 @@ class User extends Authenticable
     public function comments(){
         return $this ->hasMany(Comment::class);
     }
+    public function commentsOn(){
+        return $this->morphMany('App\Models\Comment', 'commentable')->latest();
+    }
     public function image(){
         return $this -> morphOne('App\Models\Image', 'imageable');
     }
