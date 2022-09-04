@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Scopes\DeletedAdminScope;
 use App\Scopes\LatesScope;
+use App\Traits\Taggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Cache;
 class BlogPost extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    use SoftDeletes, Taggable;
     protected $fillable = ['title', 'content', 'user_id'];
     public function comments(){
         return $this->morphMany('App\Models\Comment', 'commentable')->latest();
@@ -24,10 +25,7 @@ class BlogPost extends Model
     public function user(){
         return $this -> belongsTo('App\Models\User');
     }
-    public function tags(){
-        return $this -> morphToMany('App\Models\Tag', 'taggable')
-            ->withTimestamps();
-    }
+    
 
     public function scopeLatest(Builder $query){
         return $query->orderBy(static::CREATED_AT, 'desc');
