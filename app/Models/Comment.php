@@ -22,6 +22,10 @@ class Comment extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+    public function tags(){
+        return $this -> morphToMany('App\Models\Tag', 'taggable')
+            ->withTimestamps();
+    }
     public static function boot(){
         parent::boot();
         static::creating(function(Comment $comment){
