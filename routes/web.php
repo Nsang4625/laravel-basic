@@ -9,7 +9,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\UserCommentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -76,9 +76,10 @@ Route::get('/posts/tag/{tag}', [PostTagController::class, 'index'])
     ->name('posts.tags.index');
 Route::resource('posts.comments', PostCommentController::class)
     ->only(['store']);
-Route::resource('users.comments', UserCommentController::class)
-    ->only(['store']);
+
 Route::resource('users', UserController::class)->only(['show', 'edit', 'update']);
+Route::resource('users.comments',UserCommentController::class)
+    ->only(['store']);
 Auth::routes();
 // optional parameter
 /*
