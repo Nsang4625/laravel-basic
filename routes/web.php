@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserCommentController;
+use App\Models\Comment;
+use App\Mail\CommentPostedmd;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -80,6 +83,10 @@ Route::resource('posts.comments', PostCommentController::class)
 Route::resource('users', UserController::class)->only(['show', 'edit', 'update']);
 Route::resource('users.comments',UserCommentController::class)
     ->only(['store']);
+// Route::get('mailable', function(){
+//     $comment = Comment::find(1);
+//     return CommentPostedmd($comment);
+// });
 Auth::routes();
 // optional parameter
 /*
