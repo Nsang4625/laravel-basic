@@ -22,7 +22,7 @@ class PostCommentController extends Controller
             'content' => $request->input('content')
         ]);
         Mail::to($post->user)->send(
-            new CommentPostedmd()
+            new CommentPostedmd($comment)
         );
         return redirect()->back();
     }
