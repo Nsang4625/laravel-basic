@@ -21,9 +21,18 @@ class PostCommentController extends Controller
             'user_id' => $request->user()->id,
             'content' => $request->input('content')
         ]);
-        Mail::to($post->user)->send(
+        // Mail::to($post->user)->send(
+        //     new CommentPostedmd($comment)
+        // );
+        Mail::to($post->user)->queue(
             new CommentPostedmd($comment)
         );
+        // we can use code below to specify execution delay
+        // $when = now()->addMinute();
+        // Mail::to($post->user)->later(
+        //     $when,
+        //     new CommentPostedmd($comment)
+        // );
         return redirect()->back();
     }
 }
