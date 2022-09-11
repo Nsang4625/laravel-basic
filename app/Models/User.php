@@ -69,4 +69,10 @@ class User extends Authenticable
         -> has('blogPosts', '>=', 2)
         -> orderBy('blog_posts_count', 'desc');
     }
+    public function scopeThatHasCommentedOnPost(Builder $query, BlogPost $blogPost){// here we don't need to use BlogPost because we're in the same namespace
+        return $query->whereHas('comments', function($query) use($blogPost){
+            return $query->where('commentable_type' , '=', BlogPost::class)
+                    ->where('commentable_id', '=', $blogPost->id);
+        });
+    }
 }
