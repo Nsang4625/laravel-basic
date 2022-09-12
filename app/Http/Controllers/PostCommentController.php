@@ -27,8 +27,10 @@ class PostCommentController extends Controller
         // Mail::to($post->user)->queue(
         //     new CommentPostedmd($comment)
         // );
-        ThrottledMail::dispatch(new CommentPostedmd($comment), $post->user);
-        NotifyUsersPostWasCommented::dispatch($comment);
+        ThrottledMail::dispatch(new CommentPostedmd($comment), $post->user)
+        ->onQueue('high');
+        NotifyUsersPostWasCommented::dispatch($comment)
+        ->onQueue('low');
         // we can use code below to specify execution delay
         // $when = now()->addMinute();
         // Mail::to($post->user)->later(
