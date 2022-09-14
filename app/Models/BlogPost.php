@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Cache;
 
 class BlogPost extends Model
 {
@@ -42,17 +41,6 @@ class BlogPost extends Model
         static::addGlobalScope(new DeletedAdminScope);
         parent::boot();
         // static::addGlobalScope(new LatesScope);
-
-        static::deleting(function (BlogPost $blogPost){
-            $blogPost -> comments() -> delete();
-            Cache::tags(['blog-post'])->forget("blog-post-{$blogPost -> id}");
-        });
-        static::restoring(function (BlogPost $blogPost){
-            $blogPost -> comments() -> restore();
-        });
-        static::updating(function(BlogPost $blogPost){
-            Cache::tags(['blog-post'])->forget("blog-post-{$blogPost -> id}");
-        });
     }
 }
         // add scope before boot because boot() will find and use SoftDeletes
