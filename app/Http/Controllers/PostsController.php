@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BlogPostPosted;
 use Illuminate\Http\File;
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
@@ -128,7 +129,7 @@ class PostsController extends Controller
         $post = BlogPost::create($validated)
         we can use this instead of 5 lines up here
         */
-
+        event(new BlogPostPosted($post));
 
 
 

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticable;
+use Illuminate\Support\Facades\Bus;
 
 class User extends Authenticable
 {
@@ -74,5 +75,8 @@ class User extends Authenticable
             return $query->where('commentable_type' , '=', BlogPost::class)
                     ->where('commentable_id', '=', $blogPost->id);
         });
+    }
+    public function scopeThatIsAnAdmin(Builder $query){
+        return $query->where('is_admin','=', true);
     }
 }
