@@ -6,6 +6,7 @@ use App\Http\Requests\UpdateUser;
 use App\Models\Image;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Services\Counter;
 
 class UserController extends Controller
 {
@@ -53,7 +54,11 @@ class UserController extends Controller
      */
     public function show(User $user)// to pass this model automaticaly with id in route
     {
-        return view('users.show', ['user' => $user]);
+        $counter = new Counter();
+        return view('users.show',
+         ['user' => $user,
+                'counter' => $counter->increment("user-{$user->id}")
+            ]);
     }
 
     /**

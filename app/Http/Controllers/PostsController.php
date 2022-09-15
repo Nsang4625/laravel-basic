@@ -8,6 +8,7 @@ use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
 use App\Models\Image;
 use App\Models\User;
+use App\Services\Counter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Auth\Access\Gate;
@@ -157,42 +158,12 @@ class PostsController extends Controller
             ->with('comments.user')// fetch another related model of previous related model 
             ->with('user')->findOrFail($id);
         });
-        $sessionId = session()->getId(); // get user's session
-        $counterKey = "blog-post-{$id}-counter";
-        // count users on page
-        $usersKey = "blog-post-{$id}-users";
-        // fetch and store data about users that visited the page 
-        $users = Cache::get($usersKey, []);
-        $userUpdate = [];
-        $difference = 0;
-        $now = now();
-        foreach ($users as $session => $lastVisited) {
-            if ($now->diffInMinutes($lastVisited) >= 1) {
-                $difference--;
-            } else {
-                $userUpdate[$session] = $lastVisited;
-            }
-        }
-
-        if (
-            !array_key_exists($sessionId, $users)
-            || $now->diffInMinutes($users[$sessionId]) >= 1
-        ) {
-            $difference++;
-        }
-        $userUpdate[$sessionId] = $now;
-        Cache::tags(['blog-post'])->forever($usersKey, $userUpdate);
-        if (!Cache::tags(['blog-post'])->has($counterKey)) {
-            Cache::tags(['blog-post'])->forever($counterKey, 1);
-        } else {
-            Cache::tags(['blog-post'])->increment($counterKey, $difference);
-        }
-        $counter = Cache::tags(['blog-post'])->get($counterKey);
+        $counter = new Counter();
         return view(
             'posts.show',
             [
                 'post' => $blogPost,
-                'counter' => $counter
+                'counter' => $counter->increment("blog-post-{$id}")
             ]
         );
     }
