@@ -54,7 +54,7 @@ class UserController extends Controller
      */
     public function show(User $user)// to pass this model automaticaly with id in route
     {
-        $counter = new Counter();
+        $counter = resolve(Counter::class);
         return view('users.show',
          ['user' => $user,
                 'counter' => $counter->increment("user-{$user->id}")

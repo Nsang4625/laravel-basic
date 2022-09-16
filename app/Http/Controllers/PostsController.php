@@ -158,7 +158,8 @@ class PostsController extends Controller
             ->with('comments.user')// fetch another related model of previous related model 
             ->with('user')->findOrFail($id);
         });
-        $counter = new Counter();
+        $counter = resolve(Counter::class);
+        // resolve means getting an instance from the container 
         return view(
             'posts.show',
             [
