@@ -42,5 +42,12 @@ class AppServiceProvider extends ServiceProvider
             return new Counter(5);
             });
         // this also register like bind method above but when resolve, always returns the same instance instance
+        // : Singleton pattern 
+        // => binding dependency to other classes
+        // $this->app->when(Counter::class)
+        //     ->needs('$timeout')
+        //     ->give(5);
+        // this only passed value to the class Counter
+        // => binding primitive to dependency
     }
 }

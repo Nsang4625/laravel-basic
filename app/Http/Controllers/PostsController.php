@@ -28,10 +28,12 @@ use Illuminate\Support\Facades\Storage;
 
 class PostsController extends Controller
 {
-    public function __construct()
+    private $counter;
+    public function __construct(Counter $counter)
     {
         $this->middleware('auth')->only(['create', 'update', 'edit', 'store', 'destroy']);
         // make the middleware execute only for some functions
+        $this->counter = $counter;
     }
     // public $posts = [
     //     1 => [
@@ -158,13 +160,13 @@ class PostsController extends Controller
             ->with('comments.user')// fetch another related model of previous related model 
             ->with('user')->findOrFail($id);
         });
-        $counter = resolve(Counter::class);
+        // $counter = resolve(Counter::class);
         // resolve means getting an instance from the container 
         return view(
             'posts.show',
             [
                 'post' => $blogPost,
-                'counter' => $counter->increment("blog-post-{$id}")
+                'counter' => $this->counter->increment("blog-post-{$id}")
             ]
         );
     }

@@ -15,10 +15,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
+    private $counter;
+    public function __construct(Counter $counter)// this automatically fetch instance from Container that named 'Counter'
     {
         $this->middleware('auth');
         $this->authorizeResource(User::class,'user');
+        $this->counter = $counter;
     }
     public function index()
     {
@@ -54,10 +56,9 @@ class UserController extends Controller
      */
     public function show(User $user)// to pass this model automaticaly with id in route
     {
-        $counter = resolve(Counter::class);
         return view('users.show',
          ['user' => $user,
-                'counter' => $counter->increment("user-{$user->id}")
+                'counter' => $this->counter->increment("user-{$user->id}")
             ]);
     }
 
