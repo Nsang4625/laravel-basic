@@ -39,7 +39,10 @@ class AppServiceProvider extends ServiceProvider
         //     });
         // this will register a class/interface to Container
         $this->app->singleton(Counter::class, function($app) {
-            return new Counter(5);
+            return new Counter(
+                $app->make('use Illuminate\Contracts\Cache\Factory'),
+                $app->make('Illuminate\Contracts\Session\Session'),
+                5);
             });
         // this also register like bind method above but when resolve, always returns the same instance instance
         // : Singleton pattern 

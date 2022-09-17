@@ -58,7 +58,7 @@ class UserController extends Controller
     {
         return view('users.show',
          ['user' => $user,
-                'counter' => $this->counter->increment("user-{$user->id}")
+                'counter' => $this->counter->increment("user-{$user->id}",['blog-post'])
             ]);
     }
 

@@ -166,7 +166,7 @@ class PostsController extends Controller
             'posts.show',
             [
                 'post' => $blogPost,
-                'counter' => $this->counter->increment("blog-post-{$id}")
+                'counter' => $this->counter->increment("blog-post-{$id}",['blog-post'])
             ]
         );
     }
