@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\CounterContract;
 use App\Events\BlogPostPosted;
 use Illuminate\Http\File;
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
 use App\Models\Image;
 use App\Models\User;
-use App\Services\Counter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Auth\Access\Gate;
@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Storage;
 class PostsController extends Controller
 {
     private $counter;
-    public function __construct(Counter $counter)
+    public function __construct(CounterContract $counter)
     {
         $this->middleware('auth')->only(['create', 'update', 'edit', 'store', 'destroy']);
         // make the middleware execute only for some functions
