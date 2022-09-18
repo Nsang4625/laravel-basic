@@ -78,7 +78,7 @@ Route::get('/secret', [HomeController::class, 'secret'])
 Route::get('/posts/tag/{tag}', [PostTagController::class, 'index'])
     ->name('posts.tags.index');
 Route::resource('posts.comments', PostCommentController::class)
-    ->only(['store']);
+    ->only(['index','store']);
 
 Route::resource('users', UserController::class)->only(['show', 'edit', 'update']);
 Route::resource('users.comments',UserCommentController::class)
@@ -111,7 +111,7 @@ Route::prefix('/fun')->name('fun.')->group(function () use ($posts) {
     Route::get('/google', function () {
         return redirect()->away('https://google.com'); // redirect to another web page
     });
-    Route::get('/jason', function () use ($posts) {
+    Route::get('/json', function () use ($posts) {
         return response()->json($posts);
     });
     Route::get('/download', function () {

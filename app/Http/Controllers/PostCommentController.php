@@ -13,6 +13,9 @@ class PostCommentController extends Controller
     {
         $this->middleware('auth')->only(['store']);
     }
+    public function index(BlogPost $post){
+        return $post->comments;// return json
+    }
     public function store(StoreComment $request, BlogPost $post)
     {
         $comment = $post->comments()->create([
