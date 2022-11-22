@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
         // this will register a class/interface to Container
         $this->app->singleton(Counter::class, function($app) {
             return new Counter(
-                $app->make('use Illuminate\Contracts\Cache\Factory'),
+                $app->make('Illuminate\Contracts\Cache\Factory'),
                 $app->make('Illuminate\Contracts\Session\Session'),
                 5);
             });
