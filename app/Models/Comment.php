@@ -13,6 +13,8 @@ class Comment extends Model
     use SoftDeletes, Taggable;
     use HasFactory;
     protected $fillable = ['user_id', 'content'];
+    // $hidden: used to hide some fields from requests of api
+    protected $hidden = ['commentable_type', 'commentable_id'];
     public function scopeLatest(Builder $query){
         return $query->orderBy(static::CREATED_AT, 'desc');
     }
