@@ -14,7 +14,11 @@ class Comment extends Model
     use HasFactory;
     protected $fillable = ['user_id', 'content'];
     // $hidden: used to hide some fields from requests of api
-    protected $hidden = ['commentable_type', 'commentable_id'];
+    protected $hidden = [
+        'commentable_type',
+        'commentable_id',
+        'user_id',
+    ];
     public function scopeLatest(Builder $query){
         return $query->orderBy(static::CREATED_AT, 'desc');
     }
