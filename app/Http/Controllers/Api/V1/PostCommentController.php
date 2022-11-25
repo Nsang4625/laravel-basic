@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Comment;
+use App\Models\BlogPost;
 use Illuminate\Http\Request;
 
 class PostCommentController extends Controller
@@ -12,9 +14,12 @@ class PostCommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(BlogPost $post)
+    // remember that name of passed variable must match the name in route's parameter
     {
-        return response(["comment" => []]);
+        return Comment::collection($post->comments()->with('user')->get());
+        // this will return a wrapped collection in the key 'data'
+        // to change that, edit in file AppServiceProvider.php
     }
 
     /**

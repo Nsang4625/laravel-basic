@@ -14,7 +14,7 @@ class PostCommentController extends Controller
         $this->middleware('auth')->only(['store']);
     }
     public function index(BlogPost $post){
-        return CommentResource::collection($post->comments()->with('user'));
+        return CommentResource::collection($post->comments()->with('user')->get());
         // sent data will be assigned to 'data' field
         // return $post->comments()->with('user')->get();// return json
     }

@@ -8,7 +8,7 @@ use App\View\Components\updated;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-
+use App\Http\Resources\Comment;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -53,5 +53,7 @@ class AppServiceProvider extends ServiceProvider
         // this only passed value to the class Counter
         // => binding primitive to dependency
         $this->app->bind('App\Contracts\CounterContract', Counter::class);
+        Comment::withoutWrapping();
+        // we can by default change all resource by using parent class: Resource::withoutWrapping()
     }
 }
