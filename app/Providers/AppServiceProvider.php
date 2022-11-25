@@ -52,6 +52,6 @@ class AppServiceProvider extends ServiceProvider
         //     ->give(5);
         // this only passed value to the class Counter
         // => binding primitive to dependency
-        $this->app->bind('App\Contracts\Counter', Counter::class);
+        $this->app->bind('App\Contracts\CounterContract', Counter::class);
     }
 }

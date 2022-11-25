@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::prefix("v1")->name('api.v1.')->namespace('App\Http\Controllers\Api\V1')->group(function (){
+    Route::get('/status', function (){
+        return response()->json(['status' => 'OK'], 200);
+    })->name('status');
+    Route::apiResource('posts.comments', 'PostCommentController');
+});
