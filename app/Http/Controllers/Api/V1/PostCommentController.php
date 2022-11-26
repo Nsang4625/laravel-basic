@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Events\CommentPosted;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreComment;
 use App\Http\Resources\Comment;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
@@ -37,9 +39,13 @@ class PostCommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreComment $request, BlogPost $post)
     {
-        //
+        $comment = $post->comments()->create([
+            'user_id' => $request->user()->id,
+            'content' => $request->input('content')
+        ]);
+        event(new CommentPosted($comment));
     }
 
     /**
