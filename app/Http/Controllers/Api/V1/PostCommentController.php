@@ -74,6 +74,7 @@ class PostCommentController extends Controller
      */
     public function update(BlogPost $post, Comment $comment, StoreComment $request)
     {
+        $this->authorize($comment);
         $comment->content = $request->input('content');
         $comment->save();
         return new CommentResource($comment);
@@ -87,6 +88,7 @@ class PostCommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
+        $this->authorize($comment);
         $comment->delete();
         return response()->noContent();
     }
