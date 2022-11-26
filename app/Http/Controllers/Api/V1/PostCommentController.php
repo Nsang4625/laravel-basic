@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Api\V1;
 use App\Events\CommentPosted;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreComment;
-use App\Http\Resources\Comment;
+use App\Http\Resources\Comment as CommentResource;
 use App\Models\BlogPost;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class PostCommentController extends Controller
@@ -28,7 +29,7 @@ class PostCommentController extends Controller
             to change that, edit in file AppServiceProvider.php */
 
         $perPage = $request->input('per_page') ?? 15;
-        return Comment::collection($post->comments()->with('user')->paginate(5)
+        return CommentResource::collection($post->comments()->with('user')->paginate(5)
             ->appends([
                 'per_page' => $perPage
             ]));
@@ -50,7 +51,7 @@ class PostCommentController extends Controller
             'content' => $request->input('content')
         ]);
         event(new CommentPosted($comment));
-        return new Comment($comment);
+        return new CommentResource($comment);
     }
 
     /**
@@ -59,9 +60,9 @@ class PostCommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Comment $comment)
     {
-        //
+        return new CommentResource($comment);
     }
 
     /**
@@ -71,9 +72,11 @@ class PostCommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BlogPost $post, Comment $comment, StoreComment $request)
     {
-        //
+        $comment->content = $request->input('content');
+        $comment->save();
+        return new CommentResource($comment);
     }
 
     /**
@@ -82,8 +85,9 @@ class PostCommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comment $comment)
     {
-        //
+        $comment->delete();
+        return response()->noContent();
     }
 }
