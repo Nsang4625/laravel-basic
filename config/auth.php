@@ -40,6 +40,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'api' => [
+            'driver' => 'token',
+            'provider' => 'users',
+            // 'input_key' => 'api_token',
+            // 'storage_key' => 'api_token'
+            // input_key is query parameter
+            // storage_key is column's name in db 
+        ]
     ],
 
     /*

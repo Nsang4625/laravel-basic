@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
             $comment -> save();
         });
         */
-        Cache::tags(['blog-post'])->flush();
+        //Cache::tags(['blog-post'])->flush();
         $this->call([
             UsersTableSeeder::class,
             BlogPostsTableSeeder::class,
