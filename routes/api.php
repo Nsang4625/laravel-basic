@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Cache\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,3 +24,10 @@ Route::prefix("v1")->name('api.v1.')->namespace('App\Http\Controllers\Api\V1')->
     })->name('status');
     Route::apiResource('posts.comments', 'PostCommentController');
 });
+// fallback route used to hanle non existing route
+// so it must be register at the end of the file
+Route::fallback(function (){
+    return response()->json([
+        'message' => 'not found'
+    ], 404);
+})->name('api.fallback');
