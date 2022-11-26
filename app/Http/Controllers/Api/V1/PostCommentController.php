@@ -14,13 +14,18 @@ class PostCommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(BlogPost $post)
+    public function index(BlogPost $post, Request $request)
     // remember that name of passed variable must match the name in route's parameter
     {
-        // return Comment::collection($post->comments()->with('user')->get());
-        // this will return a wrapped collection in the key 'data'
-        // to change that, edit in file AppServiceProvider.php
-        return Comment::collection($post->comments()->with('user')->paginate(5));
+        /*return Comment::collection($post->comments()->with('user')->get());
+            this will return a wrapped collection in the key 'data'
+            to change that, edit in file AppServiceProvider.php */
+
+        $perPage = $request->input('per_page') ?? 15;
+        return Comment::collection($post->comments()->with('user')->paginate(5)
+            ->appends([
+                'per_page' => $perPage
+            ]));
         // even we use withoutWrapping, it still returns back in data property
         // with some additional properties like links, meta
         // laravel also auto generate a parameter in the url: ?page=...
