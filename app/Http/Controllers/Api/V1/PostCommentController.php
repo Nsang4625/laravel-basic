@@ -17,9 +17,13 @@ class PostCommentController extends Controller
     public function index(BlogPost $post)
     // remember that name of passed variable must match the name in route's parameter
     {
-        return Comment::collection($post->comments()->with('user')->get());
+        // return Comment::collection($post->comments()->with('user')->get());
         // this will return a wrapped collection in the key 'data'
         // to change that, edit in file AppServiceProvider.php
+        return Comment::collection($post->comments()->with('user')->paginate(5));
+        // even we use withoutWrapping, it still returns back in data property
+        // with some additional properties like links, meta
+        // laravel also auto generate a parameter in the url: ?page=...
     }
 
     /**
